@@ -1,10 +1,12 @@
 import javafx.animation.AnimationTimer;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -21,6 +23,13 @@ public class Renderer extends Application {
     record Triangle2D(Point2D a, Point2D b, Point2D c, Color color){}
 
     private long prevNanos = 0;
+
+    boolean goNorth = false;
+    boolean goSouth = false;
+    boolean goWest = false;
+    boolean goEast = false;
+    boolean goUp = false;
+    boolean goDown = false;
 
     private Point3D viewPoint = new Point3D(((double)width)/2, ((double)height)/2, 0);
 
@@ -53,6 +62,35 @@ public class Renderer extends Application {
 
         Group group = new Group(canvas);
         Scene scene = new Scene(group, width, height);
+
+
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                switch (event.getCode()) {
+                    case UP:    goNorth = true; break;
+                    case DOWN:  goSouth = true; break;
+                    case LEFT:  goWest  = true; break;
+                    case RIGHT: goEast  = true; break;
+                    case A:     goUp = true; break;
+                    case Z:     goDown = true; break;
+                }
+            }
+        });
+
+        scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                switch (event.getCode()) {
+                    case UP:    goNorth = false; break;
+                    case DOWN:  goSouth = false; break;
+                    case LEFT:  goWest  = false; break;
+                    case RIGHT: goEast  = false; break;
+                    case A:     goUp = false; break;
+                    case Z:     goDown = false; break;
+                }
+            }
+        });
         stage.setScene(scene);
         stage.show();
 
@@ -69,7 +107,31 @@ public class Renderer extends Application {
         prevNanos = now;
         double deltaSec  = deltaNanos / 1.0e9;
 
-        viewPoint = new Point3D(viewPoint.x + (deltaSec * 15), viewPoint.y, viewPoint.z );
+        int xOffset = 0;
+        if(goWest) {
+            xOffset = -200;
+        } else if((goEast)) {
+            xOffset = 200;
+        }
+
+        int yOffset = 0;
+        if(goDown) {
+            yOffset = -200;
+        } else if((goUp)) {
+            yOffset = 200;
+        }
+
+        int zOffset = 0;
+        if(goNorth) {
+            zOffset = 200;
+        } else if(goSouth) {
+            zOffset = -200;
+        }
+
+        viewPoint = new Point3D(
+                viewPoint.x + (deltaSec * xOffset),
+                viewPoint.y + (deltaSec * yOffset),
+                viewPoint.z + (deltaSec * zOffset));
 
         graphics.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
