@@ -67,32 +67,25 @@ public class Renderer extends Application {
         Group group = new Group(canvas);
         Scene scene = new Scene(group, width, height);
 
-
-        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                switch (event.getCode()) {
-                    case UP:    goNorth = true; break;
-                    case DOWN:  goSouth = true; break;
-                    case LEFT:  goWest  = true; break;
-                    case RIGHT: goEast  = true; break;
-                    case A:     goUp = true; break;
-                    case Z:     goDown = true; break;
-                }
+        scene.setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case UP -> goNorth = true;
+                case DOWN -> goSouth = true;
+                case LEFT -> goWest = true;
+                case RIGHT -> goEast = true;
+                case A -> goUp = true;
+                case Z -> goDown = true;
             }
         });
 
-        scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                switch (event.getCode()) {
-                    case UP:    goNorth = false; break;
-                    case DOWN:  goSouth = false; break;
-                    case LEFT:  goWest  = false; break;
-                    case RIGHT: goEast  = false; break;
-                    case A:     goUp = false; break;
-                    case Z:     goDown = false; break;
-                }
+        scene.setOnKeyReleased(event -> {
+            switch (event.getCode()) {
+                case UP -> goNorth = false;
+                case DOWN -> goSouth = false;
+                case LEFT -> goWest = false;
+                case RIGHT -> goEast = false;
+                case A -> goUp = false;
+                case Z -> goDown = false;
             }
         });
         stage.setScene(scene);
