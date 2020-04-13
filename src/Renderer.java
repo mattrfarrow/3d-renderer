@@ -21,7 +21,7 @@ public class Renderer extends Application {
     record Triangle3D(Point3D a, Point3D b, Point3D c, Color color){}
     record Triangle2D(Point2D a, Point2D b, Point2D c, Color color){}
 
-    private Point3D viewPoint = new Point3D(100, 100, 0);
+    private Point3D viewPoint = new Point3D(width/2, height/2, 0);
 
     public static void main(String[] args) throws Exception {
         launch(args);
@@ -54,7 +54,7 @@ public class Renderer extends Application {
                 prevNanos = now;
                 double deltaSec  = deltaNanos / 1.0e9;
 
-                viewPoint = new Point3D(viewPoint.x + (deltaSec * 10), viewPoint.y - (deltaSec * 20), viewPoint.z + (deltaSec * 30) );
+                viewPoint = new Point3D(viewPoint.x + (deltaSec * 10), viewPoint.y - (deltaSec * 5), viewPoint.z + (deltaSec * 30) );
 
                 graphics.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
                 for(Triangle3D triangle : Shapes.getTriangles()) {

@@ -9,47 +9,13 @@ public class Shapes {
     public static List<Renderer.Triangle3D> getTriangles() {
         List<Renderer.Triangle3D> triangles = new ArrayList<>();
 
-        triangles.addAll(buildCube(100, 300, 2000));
-        triangles.addAll(buildCube(300, 300, 2000));
-        triangles.addAll(buildCube(500, 300, 2000));
-        triangles.addAll(buildCube(700, 300, 2000));
-        triangles.addAll(buildCube(900, 300, 2000));
-        triangles.addAll(buildCube(1100, 300, 2000));
 
-        triangles.addAll(buildCube(100, 300, 1600));
-        triangles.addAll(buildCube(300, 300, 1600));
-        triangles.addAll(buildCube(500, 300, 1600));
-        triangles.addAll(buildCube(700, 300, 1600));
-        triangles.addAll(buildCube(900, 300, 1600));
-        triangles.addAll(buildCube(1100, 300, 1600));
-
-        triangles.addAll(buildCube(100, 300, 1200));
-        triangles.addAll(buildCube(300, 300, 1200));
-        triangles.addAll(buildCube(500, 300, 1200));
-        triangles.addAll(buildCube(700, 300, 1200));
-        triangles.addAll(buildCube(900, 300, 1200));
-        triangles.addAll(buildCube(1100, 300, 1200));
-
-        triangles.addAll(buildCube(100, 300, 1000));
-        triangles.addAll(buildCube(300, 300, 1000));
-        triangles.addAll(buildCube(500, 300, 1000));
-        triangles.addAll(buildCube(700, 300, 1000));
-        triangles.addAll(buildCube(900, 300, 1000));
-        triangles.addAll(buildCube(1100, 300, 1000));
-
-        triangles.addAll(buildCube(100, 300, 800));
-        triangles.addAll(buildCube(300, 300, 800));
-        triangles.addAll(buildCube(500, 300, 800));
-        triangles.addAll(buildCube(700, 300, 800));
-        triangles.addAll(buildCube(900, 300, 800));
-        triangles.addAll(buildCube(1100, 300, 800));
-
-        triangles.addAll(buildCube(100, 300, 600));
-        triangles.addAll(buildCube(300, 300, 600));
-        triangles.addAll(buildCube(500, 300, 600));
-        triangles.addAll(buildCube(700, 300, 600));
-        triangles.addAll(buildCube(900, 300, 600));
-        triangles.addAll(buildCube(1100, 300, 600));
+        var y = 600;
+        for (var z: List.of(3800, 4400, 4000, 3600, 3200, 2800, 2400, 2000, 1600, 1200, 1000, 800,600)) {
+            for (var x: List.of(-1100, -900, -700, -500, -300, -100, 100, 300, 500, 700, 900, 1100, 1300, 1500, 1700, 1900, 2100, 2300)) {
+                triangles.addAll(buildCube(x, y, z));
+            }
+        }
 
         return triangles;
     }
@@ -107,7 +73,18 @@ public class Shapes {
                         rightTopFront,
                         leftTopBack,
                         rightTopBack,
-                        Color.DARKRED)
+                        Color.DARKRED),
+                // right
+                new Renderer.Triangle3D(
+                        rightTopFront,
+                        rightBottomFront,
+                        rightBottomBack,
+                        Color.LIGHTSKYBLUE),
+                new Renderer.Triangle3D(
+                        rightTopFront,
+                        rightTopBack,
+                        rightBottomBack,
+                        Color.LIGHTGOLDENRODYELLOW)
         );
     }
 }
