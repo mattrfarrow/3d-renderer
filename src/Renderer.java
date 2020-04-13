@@ -8,6 +8,11 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.util.Collections;
+import java.util.Comparator;
+
+import static java.lang.Math.min;
+
 public class Renderer extends Application {
 
     record Point3D(double x, double y, double z){}
@@ -64,10 +69,27 @@ public class Renderer extends Application {
         prevNanos = now;
         double deltaSec  = deltaNanos / 1.0e9;
 
-        viewPoint = new Point3D(viewPoint.x + (deltaSec * 10), viewPoint.y - (deltaSec * 5), viewPoint.z + (deltaSec * 30) );
+        viewPoint = new Point3D(viewPoint.x + (deltaSec * 15), viewPoint.y, viewPoint.z );
 
         graphics.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        for(Triangle3D triangle : Shapes.getTriangles()) {
+
+        var triangles = Shapes.getTriangles();
+        Collections.sort(triangles, new Comparator<>() {
+            @Override
+            public int compare(Triangle3D t1, Triangle3D t2) {
+                return -Double.compare(minDistanceToTriangle(t1), minDistanceToTriangle(t2));
+            }
+
+            private double minDistanceToTriangle(Triangle3D t1) {
+                return min(distance(viewPoint, t1.a), min(distance(viewPoint, t1.b), distance(viewPoint, t1.c)));
+            }
+
+            private double distance(Point3D a, Point3D b) {
+                return Math.sqrt( Math.pow(a.x-b.x, 2) + Math.pow(a.y-b.y, 2) + Math.pow(a.z-b.z, 2) );
+            }
+        });
+
+        for(Triangle3D triangle : triangles) {
             drawTriangle(triangle, graphics, viewPoint);
         }
     }
