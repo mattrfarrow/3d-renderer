@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 
 import java.util.Comparator;
 
+import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 public class Renderer extends Application {
@@ -76,11 +77,11 @@ public class Renderer extends Application {
         triangles.sort(new Comparator<>() {
             @Override
             public int compare(Triangle3D t1, Triangle3D t2) {
-                return -Double.compare(minDistanceToTriangle(t1), minDistanceToTriangle(t2));
+                return -Double.compare(maxDistanceToTriangle(t1), maxDistanceToTriangle(t2));
             }
 
-            private double minDistanceToTriangle(Triangle3D t1) {
-                return min(distance(viewPoint, t1.a), min(distance(viewPoint, t1.b), distance(viewPoint, t1.c)));
+            private double maxDistanceToTriangle(Triangle3D t1) {
+                return max(distance(viewPoint, t1.a), min(distance(viewPoint, t1.b), distance(viewPoint, t1.c)));
             }
 
             private double distance(Point3D a, Point3D b) {
