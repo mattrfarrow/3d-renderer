@@ -120,9 +120,9 @@ public class Renderer extends Application {
 
         int yOffset = 0;
         if(goDown) {
-            yOffset = -200;
-        } else if((goUp)) {
             yOffset = 200;
+        } else if((goUp)) {
+            yOffset = -200;
         }
 
         int zOffset = 0;
