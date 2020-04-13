@@ -23,9 +23,6 @@ public class Renderer extends Application {
 
     private Point3D viewPoint = new Point3D(100, 100, 0);
 
-
-    private List<Triangle3D> triangles = new ArrayList<>();
-
     public static void main(String[] args) throws Exception {
         launch(args);
     }
@@ -38,49 +35,6 @@ public class Renderer extends Application {
 
     @Override
     public void start(Stage stage){
-        triangles.addAll(buildCube(100, 300, 2000));
-        triangles.addAll(buildCube(300, 300, 2000));
-        triangles.addAll(buildCube(500, 300, 2000));
-        triangles.addAll(buildCube(700, 300, 2000));
-        triangles.addAll(buildCube(900, 300, 2000));
-        triangles.addAll(buildCube(1100, 300, 2000));
-
-        triangles.addAll(buildCube(100, 300, 1600));
-        triangles.addAll(buildCube(300, 300, 1600));
-        triangles.addAll(buildCube(500, 300, 1600));
-        triangles.addAll(buildCube(700, 300, 1600));
-        triangles.addAll(buildCube(900, 300, 1600));
-        triangles.addAll(buildCube(1100, 300, 1600));
-
-        triangles.addAll(buildCube(100, 300, 1200));
-        triangles.addAll(buildCube(300, 300, 1200));
-        triangles.addAll(buildCube(500, 300, 1200));
-        triangles.addAll(buildCube(700, 300, 1200));
-        triangles.addAll(buildCube(900, 300, 1200));
-        triangles.addAll(buildCube(1100, 300, 1200));
-
-        triangles.addAll(buildCube(100, 300, 1000));
-        triangles.addAll(buildCube(300, 300, 1000));
-        triangles.addAll(buildCube(500, 300, 1000));
-        triangles.addAll(buildCube(700, 300, 1000));
-        triangles.addAll(buildCube(900, 300, 1000));
-        triangles.addAll(buildCube(1100, 300, 1000));
-
-        triangles.addAll(buildCube(100, 300, 800));
-        triangles.addAll(buildCube(300, 300, 800));
-        triangles.addAll(buildCube(500, 300, 800));
-        triangles.addAll(buildCube(700, 300, 800));
-        triangles.addAll(buildCube(900, 300, 800));
-        triangles.addAll(buildCube(1100, 300, 800));
-
-        triangles.addAll(buildCube(100, 300, 600));
-        triangles.addAll(buildCube(300, 300, 600));
-        triangles.addAll(buildCube(500, 300, 600));
-        triangles.addAll(buildCube(700, 300, 600));
-        triangles.addAll(buildCube(900, 300, 600));
-        triangles.addAll(buildCube(1100, 300, 600));
-
-
         stage.setTitle("creating canvas");
         Canvas canvas = new Canvas(width, height);
         GraphicsContext graphics = canvas.getGraphicsContext2D();
@@ -105,7 +59,7 @@ public class Renderer extends Application {
 
                 graphics.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
                 System.out.println(now / 100000000);
-                for(Triangle3D triangle : triangles) {
+                for(Triangle3D triangle : Shapes.getTriangles()) {
                     drawTriangle(triangle, graphics, viewPoint);
                 }
             }
@@ -118,63 +72,6 @@ public class Renderer extends Application {
 
         timer.start();
         timeline.play();
-    }
-
-    private Collection<Triangle3D> buildCube(int x, int y, int z) {
-
-        var l = x;
-        var r = x+75;
-
-        var t= y;
-        var b = y+75;
-
-        var fr = z;
-        var ba = z+75;
-
-        var leftTopFront = new Point3D(l,t,fr);
-        var rightTopFront = new Point3D(r,t,fr);
-        var leftBottomFront = new Point3D(l,b,fr);
-        var rightBottomFront = new Point3D(r,b,fr);
-        var leftTopBack = new Point3D(l,t,ba);
-        var rightTopBack = new Point3D(r,t,ba);
-        var leftBottomBack = new Point3D(l,b,ba);
-        var rightBottomBack = new Point3D(r,b,ba);
-
-        return List.of(
-            //front
-            new Triangle3D(
-                    leftTopFront,
-                    rightTopFront,
-                    leftBottomFront,
-                    Color.RED),
-            new Triangle3D(
-                    rightTopFront,
-                    rightBottomFront,
-                    leftBottomFront,
-                    Color.RED),
-            // left
-            new Triangle3D(
-                    leftTopFront,
-                    leftBottomFront,
-                    leftBottomBack,
-                    Color.GREEN),
-            new Triangle3D(
-                    leftTopFront,
-                    leftTopBack,
-                    leftBottomBack,
-                    Color.GREEN),
-            //top
-            new Triangle3D(
-                    leftTopFront,
-                    rightTopFront,
-                    leftTopBack,
-                    Color.DARKRED),
-            new Triangle3D(
-                    rightTopFront,
-                    leftTopBack,
-                    rightTopBack,
-                    Color.DARKRED)
-        );
     }
 
     private static void drawTriangle(Triangle3D t, GraphicsContext graphics_context, Point3D viewPoint) {
