@@ -8,10 +8,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 public class Renderer extends Application {
 
     private long prevNanos = 0;
@@ -21,9 +17,9 @@ public class Renderer extends Application {
     record Triangle3D(Point3D a, Point3D b, Point3D c, Color color){}
     record Triangle2D(Point2D a, Point2D b, Point2D c, Color color){}
 
-    private Point3D viewPoint = new Point3D(width/2, height/2, 0);
+    private Point3D viewPoint = new Point3D(((double)width)/2, ((double)height)/2, 0);
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         launch(args);
     }
 
