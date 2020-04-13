@@ -55,10 +55,8 @@ public class Renderer extends Application {
                 double deltaSec  = deltaNanos / 1.0e9;
 
                 viewPoint = new Point3D(viewPoint.x + (deltaSec * 10), viewPoint.y - (deltaSec * 20), viewPoint.z + (deltaSec * 30) );
-                System.out.println(viewPoint);
 
                 graphics.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-                System.out.println(now / 100000000);
                 for(Triangle3D triangle : Shapes.getTriangles()) {
                     drawTriangle(triangle, graphics, viewPoint);
                 }
