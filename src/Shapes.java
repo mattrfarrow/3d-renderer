@@ -10,10 +10,11 @@ public class Shapes {
         List<Renderer.Triangle3D> triangles = new ArrayList<>();
 
 
-        var y = 600;
-        for (var z: List.of(3800, 4400, 4000, 3600, 3200, 2800, 2400, 2000, 1600, 1200, 1000, 800,600)) {
-            for (var x: List.of(-1100, -900, -700, -500, -300, -100, 100, 300, 500, 700, 900, 1100, 1300, 1500, 1700, 1900, 2100, 2300)) {
-                triangles.addAll(buildCube(x, y, z));
+        for (var y: List.of(0, 300, 600, 900)) {
+            for (var z : List.of(3800, 4400, 4000, 3600, 3200, 2800, 2400, 2000, 1600, 1200, 1000, 800, 600)) {
+                for (var x : List.of(-1100, -900, -700, -500, -300, -100, 100, 300, 500, 700, 900, 1100, 1300, 1500, 1700, 1900, 2100, 2300)) {
+                    triangles.addAll(buildCube(x, y, z));
+                }
             }
         }
 
@@ -79,12 +80,23 @@ public class Shapes {
                         rightTopFront,
                         rightBottomFront,
                         rightBottomBack,
-                        Color.LIGHTSKYBLUE),
+                        Color.LIGHTGOLDENRODYELLOW),
                 new Renderer.Triangle3D(
                         rightTopFront,
                         rightTopBack,
                         rightBottomBack,
-                        Color.LIGHTGOLDENRODYELLOW)
+                        Color.LIGHTGOLDENRODYELLOW),
+                // bottom
+                new Renderer.Triangle3D(
+                        leftBottomFront,
+                        rightBottomFront,
+                        leftBottomBack,
+                        Color.LIGHTSKYBLUE),
+                new Renderer.Triangle3D(
+                        rightBottomFront,
+                        leftBottomBack,
+                        rightBottomBack,
+                        Color.LIGHTSKYBLUE)
         );
     }
 }
