@@ -8,7 +8,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import java.util.Collections;
 import java.util.Comparator;
 
 import static java.lang.Math.min;
@@ -74,7 +73,7 @@ public class Renderer extends Application {
         graphics.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
         var triangles = Shapes.getTriangles();
-        Collections.sort(triangles, new Comparator<>() {
+        triangles.sort(new Comparator<>() {
             @Override
             public int compare(Triangle3D t1, Triangle3D t2) {
                 return -Double.compare(minDistanceToTriangle(t1), minDistanceToTriangle(t2));
