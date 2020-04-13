@@ -70,7 +70,6 @@ public class Renderer extends Application {
 
     private static void drawTriangle(Triangle3D t, GraphicsContext graphics_context, Point3D viewPoint) {
         var t2d = triangle3Dto2D(t, viewPoint);
-        //System.out.println(t2d);
 
         graphics_context.setFill(t.color);
         graphics_context.fillPolygon(
@@ -87,16 +86,11 @@ public class Renderer extends Application {
     private static Point2D point3Dto2D(Point3D p, Point3D viewPoint) {
         var tanXAngle = (p.x - viewPoint.x) / (p.z - viewPoint.z);
         var xAngle = Math.toDegrees(Math.atan(tanXAngle));
-        //System.out.println("xAngle: " + xAngle );
         var tanYAngle = (p.y - viewPoint.y) / (p.z - viewPoint.z);
         var yAngle = Math.toDegrees(Math.atan(tanYAngle));
-        //System.out.println("yAngle: " + yAngle );
 
         var x = width/2 + (pixelsPerXDegree * xAngle);
         var y = height/2 + (pixelsPerYDegree * yAngle);
-
-        //System.out.println("xPix: "+x);
-        //System.out.println("yPix: "+y);
 
         return new Point2D(x, y);
     }
