@@ -11,6 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.util.Comparator;
+import java.util.List;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -38,6 +39,9 @@ public class Renderer extends Application {
 
     private static final double pixelsPerXDegree = width / 70.0;
     private static final double pixelsPerYDegree = height / 70.0;
+
+    List<Triangle3D> triangles = Shapes.getTriangles();
+
 
     public static void main(String[] args) {
         launch(args);
@@ -135,7 +139,6 @@ public class Renderer extends Application {
 
         graphics.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-        var triangles = Shapes.getTriangles();
         triangles.sort(new Comparator<>() {
             @Override
             public int compare(Triangle3D t1, Triangle3D t2) {
