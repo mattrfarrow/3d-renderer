@@ -10,24 +10,24 @@ import javafx.stage.Stage;
 
 public class Renderer extends Application {
 
-    private long prevNanos = 0;
-
     record Point3D(double x, double y, double z){}
     record Point2D(double x, double y){}
     record Triangle3D(Point3D a, Point3D b, Point3D c, Color color){}
     record Triangle2D(Point2D a, Point2D b, Point2D c, Color color){}
 
-    private Point3D viewPoint = new Point3D(((double)width)/2, ((double)height)/2, 0);
+    private long prevNanos = 0;
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+    private Point3D viewPoint = new Point3D(((double)width)/2, ((double)height)/2, 0);
 
     private static final int height = 800;
     private static final int width = 800;
 
     private static final double pixelsPerXDegree = width / 70.0;
     private static final double pixelsPerYDegree = height / 70.0;
+
+    public static void main(String[] args) {
+        launch(args);
+    }
 
     @Override
     public void start(Stage stage){
