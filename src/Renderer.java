@@ -42,20 +42,7 @@ public class Renderer extends Application {
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                if (prevNanos == 0) {
-                    prevNanos = now;
-                    return;
-                }
-                long deltaNanos = now - prevNanos;
-                prevNanos = now;
-                double deltaSec  = deltaNanos / 1.0e9;
-
-                viewPoint = new Point3D(viewPoint.x + (deltaSec * 10), viewPoint.y - (deltaSec * 5), viewPoint.z + (deltaSec * 30) );
-
-                graphics.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-                for(Triangle3D triangle : Shapes.getTriangles()) {
-                    drawTriangle(triangle, graphics, viewPoint);
-                }
+                render(now, graphics, canvas);
             }
         };
 
@@ -66,6 +53,23 @@ public class Renderer extends Application {
 
         timer.start();
         timeline.play();
+    }
+
+    private void render(long now, GraphicsContext graphics, Canvas canvas) {
+        if (prevNanos == 0) {
+            prevNanos = now;
+            return;
+        }
+        long deltaNanos = now - prevNanos;
+        prevNanos = now;
+        double deltaSec  = deltaNanos / 1.0e9;
+
+        viewPoint = new Point3D(viewPoint.x + (deltaSec * 10), viewPoint.y - (deltaSec * 5), viewPoint.z + (deltaSec * 30) );
+
+        graphics.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        for(Triangle3D triangle : Shapes.getTriangles()) {
+            drawTriangle(triangle, graphics, viewPoint);
+        }
     }
 
     private static void drawTriangle(Triangle3D t, GraphicsContext graphics_context, Point3D viewPoint) {
