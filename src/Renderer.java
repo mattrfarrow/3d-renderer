@@ -98,8 +98,8 @@ public class Renderer extends Application {
         var yAngle = Math.toDegrees(Math.atan(tanYAngle));
         //System.out.println("yAngle: " + yAngle );
 
-        var x = pixelsPerXDegree * xAngle;
-        var y = pixelsPerYDegree * yAngle;
+        var x = width/2 + (pixelsPerXDegree * xAngle);
+        var y = height/2 + (pixelsPerYDegree * yAngle);
 
         //System.out.println("xPix: "+x);
         //System.out.println("yPix: "+y);
