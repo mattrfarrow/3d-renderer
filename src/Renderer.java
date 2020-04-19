@@ -139,9 +139,9 @@ public class Renderer extends Application {
         }
 
         if(rotateLeft) {
-            xRotation -= (deltaSec * 1);
-        } else if(rotateRight) {
             xRotation += (deltaSec * 1);
+        } else if(rotateRight) {
+            xRotation -= (deltaSec * 1);
         }
 
         if(rotateUp) {
@@ -159,9 +159,9 @@ public class Renderer extends Application {
 
 
         var transformedTriangles = triangles.stream()
-//                .map(tri -> shift(tri, -viewPoint.x, -viewPoint.y, -viewPoint.z))
+                .map(tri -> shift(tri, -viewPoint.x, -viewPoint.y, -viewPoint.z))
                 .map(tri -> rotateAroundOrigin(tri, xRotation, yRotation))
-//                .map(tri -> shift(tri, viewPoint.x, viewPoint.y, viewPoint.z))
+                .map(tri -> shift(tri, viewPoint.x, viewPoint.y, viewPoint.z))
                 .collect(Collectors.toList());
 
         transformedTriangles.sort(new Comparator<>() {
@@ -189,7 +189,7 @@ public class Renderer extends Application {
     }
 
     private Point3D shiftPoint(Point3D p, double xShift, double yShift, double zShift ) {
-        return new Point3D(p.x + xShift, p.y + yShift, p.y + zShift);
+        return new Point3D(p.x + xShift, p.y + yShift, p.z + zShift);
     }
 
     private Triangle3D rotateAroundOrigin(Triangle3D triangle, double xRotation, double yRotation) {
