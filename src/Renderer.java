@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -27,10 +28,16 @@ public class Renderer extends Application {
     boolean goSouth = false;
     boolean goWest = false;
     boolean goEast = false;
+    boolean rotateUp = false;
+    boolean rotateDown = false;
+    boolean rotateLeft = false;
+    boolean rotateRight = false;
     boolean goUp = false;
     boolean goDown = false;
 
     private Point3D viewPoint = new Point3D(((double)width)/2, ((double)height)/2, 0);
+    private double xRotation = 0.0;
+    private double yRotation = 0.0;
 
     private static final int height = 800;
     private static final int width = 800;
@@ -71,8 +78,12 @@ public class Renderer extends Application {
                 case DOWN -> goSouth = true;
                 case LEFT -> goWest = true;
                 case RIGHT -> goEast = true;
-                case A -> goUp = true;
-                case Z -> goDown = true;
+                case W -> rotateUp = true;
+                case S -> rotateDown = true;
+                case A -> rotateLeft = true;
+                case D -> rotateRight = true;
+                case U -> goUp = true;
+                case J -> goDown = true;
             }
         });
 
@@ -82,8 +93,12 @@ public class Renderer extends Application {
                 case DOWN -> goSouth = false;
                 case LEFT -> goWest = false;
                 case RIGHT -> goEast = false;
-                case A -> goUp = false;
-                case Z -> goDown = false;
+                case W -> rotateUp = false;
+                case S -> rotateDown = false;
+                case A -> rotateLeft = false;
+                case D -> rotateRight = false;
+                case U -> goUp = false;
+                case J -> goDown = false;
             }
         });
         stage.setScene(scene);
@@ -123,6 +138,18 @@ public class Renderer extends Application {
             zOffset = -200;
         }
 
+        if(rotateLeft) {
+            xRotation -= (deltaSec * 1);
+        } else if(rotateRight) {
+            xRotation += (deltaSec * 1);
+        }
+
+        if(rotateUp) {
+            yRotation -= (deltaSec * 1);
+        } else if(rotateLeft) {
+            yRotation += (deltaSec * 1);
+        }
+
         viewPoint = new Point3D(
                 viewPoint.x + (deltaSec * xOffset),
                 viewPoint.y + (deltaSec * yOffset),
@@ -130,7 +157,14 @@ public class Renderer extends Application {
 
         graphics.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-        triangles.sort(new Comparator<>() {
+
+        var transformedTriangles = triangles.stream()
+//                .map(tri -> shift(tri, -viewPoint.x, -viewPoint.y, -viewPoint.z))
+                .map(tri -> rotateAroundOrigin(tri, xRotation, yRotation))
+//                .map(tri -> shift(tri, viewPoint.x, viewPoint.y, viewPoint.z))
+                .collect(Collectors.toList());
+
+        transformedTriangles.sort(new Comparator<>() {
             @Override
             public int compare(Triangle3D t1, Triangle3D t2) {
                 return -Double.compare(maxDistanceToTriangle(t1), maxDistanceToTriangle(t2));
@@ -145,9 +179,33 @@ public class Renderer extends Application {
             }
         });
 
-        for(Triangle3D triangle : triangles) {
+        for(Triangle3D triangle : transformedTriangles) {
             drawTriangle(triangle, graphics, viewPoint);
         }
+    }
+
+    private Triangle3D shift(Triangle3D tri, double xShift, double yShift, double zShift) {
+        return new Triangle3D(shiftPoint(tri.a, xShift, yShift, zShift), shiftPoint(tri.b, xShift, yShift, zShift), shiftPoint(tri.c, xShift, yShift, zShift), tri.color);
+    }
+
+    private Point3D shiftPoint(Point3D p, double xShift, double yShift, double zShift ) {
+        return new Point3D(p.x + xShift, p.y + yShift, p.y + zShift);
+    }
+
+    private Triangle3D rotateAroundOrigin(Triangle3D triangle, double xRotation, double yRotation) {
+//                |cos θ   −sin θ   0| |x|   |x cos θ − y sin θ|   |x'|
+//                |sin θ    cos θ   0| |y| = |x sin θ + y cos θ| = |y'|
+//                |  0       0      1| |z|   |        z        |   |z'|
+
+        return new Triangle3D(transformPoint(triangle.a, xRotation, yRotation), transformPoint(triangle.b, xRotation, yRotation), transformPoint(triangle.c, xRotation, yRotation), triangle.color);
+    }
+
+    private Point3D transformPoint(Point3D p, double xRotation, double yRotation) {
+        // x cos θ − y sin θ
+        var z = (p.z * Math.cos(xRotation)) - (p.x * Math.sin(xRotation));
+        // x sin θ + y cos θ
+        var x =  (p.z * Math.sin(xRotation)) + (p.x * Math.cos(xRotation));
+        return new Point3D(x, p.y, z);
     }
 
     private static void drawTriangle(Triangle3D t, GraphicsContext graphics_context, Point3D viewPoint) {
