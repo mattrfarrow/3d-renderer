@@ -40,10 +40,10 @@ public class Renderer extends Application {
     private double yRotation = 0.0;
 
     private static final int height = 800;
-    private static final int width = 800;
+    private static final int width = 1200;
 
-    private static final double pixelsPerXDegree = width / 70.0;
-    private static final double pixelsPerYDegree = height / 70.0;
+    private static final double pixelsPerXDegree = width / 60.0;
+    private static final double pixelsPerYDegree = height / 40.0;
 
     List<Triangle3D> triangles = Shapes.getTriangles();
 
